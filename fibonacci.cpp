@@ -2,7 +2,11 @@
 #include <vector>
 
 int fib(int index, std::vector<int> &memo) {
-  if (index == 0 || index == 1) {
+  if (index < 1) {
+    std::cout << "please enter a positive index.\n";
+    return 1;
+  }
+  if (index == 1 || index == 2) {
     return 1;
   }
   if (memo[index] != -1) {

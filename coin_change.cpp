@@ -1,7 +1,8 @@
 #include <iostream>
 #include <vector>
 
-int min_coins(int change, const std::vector<int> &coins) {
+int min_coins(int change, const std::vector<int> &coins,
+              std::vector<int> &memo) {
   if (change < 0) {
     return -1;
   } // impossible to give change
@@ -9,8 +10,11 @@ int min_coins(int change, const std::vector<int> &coins) {
     return 0;
   } // no change needed
   int overall_min{-1};
+  if (memo[change] != -2) {
+    return memo[change];
+  }
   for (int coin : coins) {
-    int res{min_coins(change - coin, coins)};
+    int res{min_coins(change - coin, coins, memo)};
     if (res != -1) {
       int current_min{res + 1};
       if (overall_min == -1 || current_min < overall_min) {
@@ -18,6 +22,7 @@ int min_coins(int change, const std::vector<int> &coins) {
       }
     }
   }
+  memo[change] = overall_min;
   return overall_min;
 }
 
@@ -27,7 +32,9 @@ int main() {
   std::cout << "Enter change needed: ";
   std::cin >> change;
 
-  std::cout << "Min coins needed: " << min_coins(change, coins) << '\n';
+  std::vector<int> memo(
+      change + 1, -2); // sets length to change+1, defaults all values to -2
+  std::cout << "Min coins needed: " << min_coins(change, coins, memo) << '\n';
 
   return 0;
 }

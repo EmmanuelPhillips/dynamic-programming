@@ -1,11 +1,28 @@
+#include <cstddef>
 #include <iostream>
 #include <string>
 #include <string_view>
 #include <vector>
 
-int lcs(std::string_view s1, std::string_view s2,
-        const std::vector<std::vector<int>> memo) {
-  return 0;
+int lcs(std::string_view s1, std::string_view s2, int i, int j,
+        std::vector<std::vector<int>> memo) {
+
+  if (i == 0 || j == 0) {
+    return 0;
+  }
+
+  if (memo[i][j] != -1) {
+    return memo[i][j];
+  }
+
+  int res;
+
+  if (s1[i - 1] == s2[j - 1]) {
+    res = (1 + lcs(s1, s2, i - 1, j - 1, memo));
+  }
+
+  memo[i][j] = res;
+  return res;
 }
 
 int main() {
@@ -20,7 +37,11 @@ int main() {
   std::vector<std::vector<int>> memo(s1.length() + 1,
                                      std::vector<int>(s2.length() + 1, -1));
 
-  std::cout << "Longest common substring: " << lcs(s1, s2, memo) << '\n';
+  int i{static_cast<int>(s1.length())};
+  int j{static_cast<int>(s2.length())};
+
+  std::cout << "Longest common subsequence: " << lcs(s1, s2, i, j, memo)
+            << '\n';
 
   return 0;
 }

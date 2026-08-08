@@ -15,10 +15,12 @@ int lcs(std::string_view s1, std::string_view s2, int i, int j,
     return memo[i][j];
   }
 
-  int res;
+  int res{0};
 
   if (s1[i - 1] == s2[j - 1]) {
     res = (1 + lcs(s1, s2, i - 1, j - 1, memo));
+  } else {
+    return std::max(lcs(s1, s2, i - 1, j, memo), lcs(s1, s2, i, j - 1, memo));
   }
 
   memo[i][j] = res;

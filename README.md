@@ -26,3 +26,15 @@ i also learnt about integer overflow the hard way, testing index 100 returned a 
 honestly, i'm not fully sure how much of this being easier was genuine understanding versus doing it immediately after coin change, with the concepts still fresh. i want to properly test this by attempting a similarly structured problem after a longer gap and seeing if it's still straightforward.
 ### changes for next time
 retest myself on a simple 1d memoisation problem after a few days' gap, not immediately after another dp problem, to get an honest read on whether this has actually sunk in or whether it was short-term recall.
+--- -
+## longest common subsequence (lcs)
+### goal
+given two strings, find the length of the longest subsequence that appears in both, in the same relative order, not necessarily contiguous.
+### what i learnt
+this was my first 2d dp problem, the cache needed to be a grid (vector of vectors) rather than a single 1d vector, indexed by a position in each string simultaneously, rather than a single shrinking value like fibonacci or coin change.
+i learnt the recursive relation isn't a simple forward scan through both strings, my first instinct was to walk both strings in lockstep, but this can't find subsequences that require skipping characters in only one string while staying in place on the other. the actual relation checks whether the current characters match: if they do, add 1 and recurse on both strings shifted back by one, if they don't, try shifting back on s1 only or s2 only, and take whichever gives the longer result.
+i also reinforced two mistakes from coin change that resurfaced here: passing the memo table by value instead of by reference (silently breaking memoisation without breaking correctness), and only writing to the cache in one branch of an if/else rather than both, meaning half the subproblems never actually got cached.
+### challenges
+figuring out the actual subproblems needed was the hardest part, i understood the general dp pattern (cache check, recurse, cache write) from coin change, but working out what i and j should represent, and why the base case is when either hits 0, took real effort to reason through rather than pattern match.
+### changes for next time
+before writing any code, explicitly write out (in comments or on paper) what the recursive relation is and what the base case represents, rather than starting with a loop-based instinct and correcting it after. this would likely catch the "lockstep scanning" mistake before writing any code at all.

@@ -38,3 +38,18 @@ i also reinforced two mistakes from coin change that resurfaced here: passing th
 figuring out the actual subproblems needed was the hardest part, i understood the general dp pattern (cache check, recurse, cache write) from coin change, but working out what i and j should represent, and why the base case is when either hits 0, took real effort to reason through rather than pattern match.
 ### changes for next time
 before writing any code, explicitly write out (in comments or on paper) what the recursive relation is and what the base case represents, rather than starting with a loop-based instinct and correcting it after. this would likely catch the "lockstep scanning" mistake before writing any code at all.
+--- -
+## knapsack
+### goal
+given a set of items, each with a weight and a value, and a knapsack with a maximum weight capacity, choose a subset of items to maximise total value without exceeding capacity. each item can only be used once.
+### what i learnt
+this was another 2d dp problem, but unlike lcs, the two axes represent something different: which item you're currently deciding about, and how much capacity you have left, not two positions in two separate sequences. the recursion is a genuine binary choice per item, take it or leave it, rather than a comparison-based relation like lcs had.
+i learnt the weight check ('items[i][0] <= j') has nothing to do with the memo table at all, it's just a real-world feasibility check asking "does this item physically fit in the space i have left". the memo table itself stores answers to subproblems, not weights or values from the items list, i confused these two things initially.
+i also hit the same bug pattern twice more, returning early from an if branch and skipping the memo write, and forgetting to update the actual return value at the end of the function. both are becoming familiar mistakes now, worth actively checking for on every new dp problem.
+### challenges
+i genuinely didn't understand what i'd written even after it worked. i could get the code to produce the right output but couldn't explain what i and j meant, why the comparison was against j and not something in memo, or what each memo cell actually represented. asking for a step-by-step visual trace of the recursion and memo table filling in was what actually made it click, seeing memo[i][j] get written cell by cell, and seeing a later call hit an already-filled cell and return instantly instead of recursing, made the abstract explanation concrete.
+this is a real gap to be honest about: i was pattern-matching the structure from coin change and lcs rather than reasoning through knapsack's specific logic from scratch, my "on paper" notes show me initially trying to force it into lcs's diagonal-grid shape, which wasn't the right fit.
+### changes for next time
+before writing any code on the next dp problem, explicitly state in plain english what i and j (or whatever the parameters are) represent, and get that confirmed as correct before touching the recursive relation. this would have caught the mismatch earlier.
+if a problem doesn't click after getting it working, ask for a visual trace immediately rather than moving on with surface-level understanding, this was much faster at building real intuition than reading an explanation again.
+attempt a simpler 1d problem (climbing stairs or house robber) next to consolidate rather than jumping to another hard 2d problem straight away.

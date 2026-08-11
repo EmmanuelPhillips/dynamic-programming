@@ -43,8 +43,8 @@ int main() {
   std::vector<std::vector<int>> memo(
       items.size() + 1,
       std::vector<int>(capacity + 1, -1)); // [value][capacity remaining]
-  int i{0u};
-  int j{0u};
+  int i{0};
+  int j{capacity};
 
   std::cout << "max value with capacity " << capacity
             << " is: " << knapsack(capacity, items, memo, i, j) << '\n';

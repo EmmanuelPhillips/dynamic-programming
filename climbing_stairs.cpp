@@ -9,7 +9,7 @@ int stairs(int num_stairs, std::vector<int> &memo) {
     return 1;
   } else {
     memo[num_stairs] =
-        1 + stairs(num_stairs - 1, memo) + stairs(num_stairs - 2, memo);
+        stairs(num_stairs - 1, memo) + stairs(num_stairs - 2, memo);
   }
   return memo[num_stairs];
 }
